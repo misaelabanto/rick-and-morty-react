@@ -15,5 +15,11 @@ describe('CharacterCard', () => {
     render(<CharacterCard {... character} />);
     const characterCard = screen.getByTitle('Character Card');
     expect(characterCard).toHaveClass('flex');
+    const imgElement = characterCard.querySelector('img');
+    expect(imgElement).toHaveProperty('src', 'https://rickandmortyapi.com/api/character/avatar/1.jpeg');
+    expect(characterCard.textContent).toContain('Rick Sanchez');
+    expect(characterCard.textContent).toContain('Alive');
+    expect(characterCard.textContent).toContain('Earth');
+    expect(characterCard.textContent).toContain('Male');
   })
 })
