@@ -8,26 +8,24 @@ import { PaginationButton } from './components/PaginationButton/PaginationButton
 function App() {
   const [ characters, setCharacters ] = useState([]);
   const [ page, setPage] = useState(1);
-  let totalPages = 0;
+  const [totalPages, setTotalPages] = useState(0);
 
   const fetchCharacters = async () => {
     const charactersResponse = await CharacterService.getCharacters(page);
     console.log(charactersResponse, totalPages);
-    totalPages = charactersResponse.info.pages;
+    setTotalPages(charactersResponse.info.pages);
     setCharacters(charactersResponse.results);
   }
 
   const fetchNextPage = async () => {
     if(page < totalPages) {
       setPage(page + 1);
-      await fetchCharacters();
     }
   }
   
   const fetchPreviousPage = async () => {
     if(page > 1) {
       setPage(page - 1);
-      await fetchCharacters();
     }
   }
 
@@ -40,13 +38,13 @@ function App() {
       <AppBar />
       <div className="grid grid-cols-3 gap-4">
         {
-          characters.map(character => {
+          characters?.map((character, i) => {
             const parsedCharacter = {
               ...character,
               origin: character.origin.name
             }
             return (
-              <CharacterCard key={parsedCharacter.name} {...parsedCharacter}/>
+              <CharacterCard key={i} {...parsedCharacter}/>
             )
           })
         }
